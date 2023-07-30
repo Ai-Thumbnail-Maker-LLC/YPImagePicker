@@ -133,15 +133,43 @@ extension YPLibraryVC: UICollectionViewDelegate {
                                     // set image only if it's still showing the same asset.
                                     if cell.representedAssetIdentifier == asset.localIdentifier && image != nil {
                                         
-                                        
-                                        let random = Int.random(in: 0...1)
-                                        if random == 0 {
-                                            cell.imageView.layer.borderWidth = 5.0
-                                            cell.imageView.layer.borderColor = UIColor.green.cgColor
-                                        } else {
-                                            cell.imageView.layer.borderWidth = 5.0
-                                            cell.imageView.layer.borderColor = UIColor.red.cgColor
+                                        cell.imageView.layer.borderWidth = 5.0
+                                        cell.imageView.layer.borderColor = UIColor.clear.cgColor
+                                                               
+                                        let crop = FaceCropper()
+                                        crop.mCrop(image: (image?.cgImage)!) { result in
+                                            switch result {
+                                                case .success(let faces):
+                                                    // When the `Vision` successfully find faces, and `FaceCropper` cropped it.
+                                                    // `faces` argument is a collection of cropped images.
+                                                    
+                                                    DispatchQueue.main.async {
+                                                        
+                                                        cell.imageView.layer.borderWidth = 5.0
+                                                        cell.imageView.layer.borderColor = UIColor.green.cgColor
+                                                       
+                                                    }
+                                                    
+                                                case .notFound:
+                                                    // When the image doesn't contain any face, `result` will be `.notFound`.
+                                                DispatchQueue.main.async {
+                                                    
+                                                    cell.imageView.layer.borderWidth = 5.0
+                                                    cell.imageView.layer.borderColor = UIColor.red.cgColor
+                                                    
+                                                }
+                                                case .failure(let error):
+                                                    // When the any error occured, `result` will be `failure`.
+                                                DispatchQueue.main.async {
+                                                    
+                                                    
+                                                        cell.imageView.layer.borderWidth = 5.0
+                                                        cell.imageView.layer.borderColor = UIColor.red.cgColor
+                                                                                                    }
+                                            }
                                         }
+                                        
+                    
                                         cell.imageView.image = image
                                         
                                     }
