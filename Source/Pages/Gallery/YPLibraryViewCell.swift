@@ -14,6 +14,7 @@ class YPMultipleSelectionIndicator: UIView {
     let circle = UIView()
     let label = UILabel()
     var selectionColor = UIColor.ypSystemBlue
+    
 
     convenience init() {
         self.init(frame: .zero)
@@ -60,6 +61,7 @@ class YPLibraryViewCell: UICollectionViewCell {
     let durationLabel = UILabel()
     let selectionOverlay = UIView()
     let multipleSelectionIndicator = YPMultipleSelectionIndicator()
+    var indexPath = IndexPath()
     
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     override init(frame: CGRect) {

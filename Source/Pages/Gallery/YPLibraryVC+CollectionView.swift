@@ -121,6 +121,7 @@ extension YPLibraryVC: UICollectionViewDelegate {
         guard let asset = mediaManager.getAsset(at: indexPath.item) else {
             return cell
         }
+        cell.indexPath = indexPath
 
         cell.representedAssetIdentifier = asset.localIdentifier
         cell.multipleSelectionIndicator.selectionColor =
@@ -138,33 +139,37 @@ extension YPLibraryVC: UICollectionViewDelegate {
                                         DispatchQueue.global(qos: .userInteractive).async {
                                             let crop = FaceCropper()
                                             crop.mCrop(image: (image?.cgImage)!) { result in
-                                                switch result {
-                                                case .success(let faces):
-                                                    // When the `Vision` successfully find faces, and `FaceCropper` cropped it.
-                                                    // `faces` argument is a collection of cropped images.
+                                                
+                                                if cell.indexPath.row != indexPath.row || cell.indexPath.section != indexPath.section {
                                                     
-                                                    DispatchQueue.main.async {
+                                                    switch result {
+                                                    case .success(let faces):
+                                                        // When the `Vision` successfully find faces, and `FaceCropper` cropped it.
+                                                        // `faces` argument is a collection of cropped images.
                                                         
-                                                        cell.imageView.layer.borderWidth = 5.0
-                                                        cell.imageView.layer.borderColor = UIColor.green.cgColor
+                                                        DispatchQueue.main.async {
+                                                            
+                                                            cell.imageView.layer.borderWidth = 5.0
+                                                            cell.imageView.layer.borderColor = UIColor.green.cgColor
+                                                            
+                                                        }
                                                         
-                                                    }
-                                                    
-                                                case .notFound:
-                                                    // When the image doesn't contain any face, `result` will be `.notFound`.
-                                                    DispatchQueue.main.async {
-                                                        
-                                                        cell.imageView.layer.borderWidth = 5.0
-                                                        cell.imageView.layer.borderColor = UIColor.red.cgColor
-                                                        
-                                                    }
-                                                case .failure(let error):
-                                                    // When the any error occured, `result` will be `failure`.
-                                                    DispatchQueue.main.async {
-                                                        
-                                                        
-                                                        cell.imageView.layer.borderWidth = 5.0
-                                                        cell.imageView.layer.borderColor = UIColor.red.cgColor
+                                                    case .notFound:
+                                                        // When the image doesn't contain any face, `result` will be `.notFound`.
+                                                        DispatchQueue.main.async {
+                                                            
+                                                            cell.imageView.layer.borderWidth = 5.0
+                                                            cell.imageView.layer.borderColor = UIColor.red.cgColor
+                                                            
+                                                        }
+                                                    case .failure(let error):
+                                                        // When the any error occured, `result` will be `failure`.
+                                                        DispatchQueue.main.async {
+                                                            
+                                                            
+                                                            cell.imageView.layer.borderWidth = 5.0
+                                                            cell.imageView.layer.borderColor = UIColor.red.cgColor
+                                                        }
                                                     }
                                                 }
                                             }
