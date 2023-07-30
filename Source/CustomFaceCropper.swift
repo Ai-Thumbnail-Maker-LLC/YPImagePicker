@@ -17,6 +17,13 @@ public class FaceCropper {
     guard #available(iOS 11.0, *) else {
       return
     }
+        
+    let hasFace = self.checkIfImagehanOnlyOneImage(img: UIImage(cgImage: image))
+    
+    if hasFace == false {
+        completion(.notFound)
+        return
+    }
     
       
     let req = VNDetectFaceRectanglesRequest { request, error in
@@ -102,6 +109,51 @@ public class FaceCropper {
     }
   }
 
+    func checkIfImagehanOnlyOneImage(img:UIImage?) -> Bool{
+        //MARK: For now we are disabling the facce dectection
+        //return true
+                let options = [CIDetectorAccuracy: CIDetectorAccuracyHigh]
+                //CIDetectorAccuracyHigh
+                if let inputImage = img,
+                   let cgImg = inputImage.cgImage,
+                   let faceDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: options){
+                    let ciImage = CIImage(cgImage: cgImg)
+                    let faces = faceDetector.features(in: ciImage)
+                    if faces.count > 1 {
+                        return false
+                    }
+                    var isFace = false
+                    if let face = faces.first as? CIFaceFeature {
+                        print("Found face at \(face.bounds)")
+
+                        if face.hasLeftEyePosition {
+                            print("Found left eye at \(face.leftEyePosition)")
+                            isFace = true
+                        }
+
+                        if face.hasRightEyePosition {
+                            print("Found right eye at \(face.rightEyePosition)")
+                            isFace = true
+                        }
+
+                        if face.hasMouthPosition {
+                            print("Found mouth at \(face.mouthPosition)")
+                            isFace = true
+                        }
+                        if face.hasFaceAngle{
+                            print("Found face angle at \(face.faceAngle)")
+                            isFace = true
+                        }
+                        if face.hasSmile{
+                            print("Found smile at \(face.hasSmile)")
+                            isFace = true
+                        }
+                    }
+                    return isFace
+                }else{
+                    return false
+                }
+    }
   
   
 }
