@@ -136,11 +136,14 @@ extension YPLibraryVC: UICollectionViewDelegate {
                                         
                                         let random = Int.random(in: 0...1)
                                         if random == 0 {
-                                            cell.backgroundColor = .green
+                                            cell.imageView.layer.borderWidth = 5.0
+                                            cell.imageView.layer.borderColor = UIColor.green.cgColor
                                         } else {
-                                            cell.backgroundColor = .red
+                                            cell.imageView.layer.borderWidth = 5.0
+                                            cell.imageView.layer.borderColor = UIColor.red.cgColor
                                         }
                                         cell.imageView.image = image
+                                        
                                     }
         }
         
