@@ -22,20 +22,16 @@ public class FaceCropper {
             let hasFace = self.checkIfImagehanOnlyOneImage(img: UIImage(cgImage: image))
             
             if hasFace == false {
-                DispatchQueue.main.async {
                     
                     completion(.notFound)
-                }
                 return
             }
             
             
             let req = VNDetectFaceRectanglesRequest { request, error in
                 guard error == nil else {
-                    DispatchQueue.main.async {
                         
                         completion(.failure(error!))
-                    }
                     return
                 }
                 
@@ -48,10 +44,8 @@ public class FaceCropper {
                         
                         print("Found Face: \(face.yaw) \(face.roll) \(face.pitch)")
                         if face.yaw?.floatValue ?? 0.0 > 0.610865 || face.yaw?.floatValue ?? 0.0 < -0.610865 || face.roll?.floatValue ?? 0.0 > 0.610865 || face.roll?.floatValue ?? 0.0 < -0.610865 || face.pitch?.floatValue ?? 0.0 > 0.610865 || face.pitch?.floatValue ?? 0.0 < -0.610865 {
-                            DispatchQueue.main.async {
                                 
                                 completion(.notFound)
-                            }
                             print("Face failed")
                             return nil
                         }
@@ -65,10 +59,8 @@ public class FaceCropper {
                     var height = face.boundingBox.height * CGFloat(image.height)
                     
                     if face.boundingBox.height < 0.25 || face.boundingBox.width < 0.25 {
-                        DispatchQueue.main.async {
                             
                             completion(.notFound)
-                        }
                         print("Face too small")
                         return nil
                     }
@@ -93,17 +85,13 @@ public class FaceCropper {
                 
                 
                 guard let result = faceImages, result.count > 0 else {
-                    DispatchQueue.main.async {
                         
                         completion(.notFound)
-                    }
                     return
                 }
-                DispatchQueue.main.async {
                     
                     completion(.success(result))
                     
-                }
                 return
             }
             
@@ -115,11 +103,9 @@ public class FaceCropper {
                 if face.landmarks?.rightEye == nil || face.landmarks?.leftEye == nil {
                     
                     print("Eye not found")
-                    DispatchQueue.main.async {
                         
                         completion(.notFound)
                         
-                    }
                     return
                 }
                 
@@ -128,12 +114,10 @@ public class FaceCropper {
             do {
                 try VNImageRequestHandler(cgImage: image, options: [:]).perform([req, landmarksRequest])
             } catch let error {
-                DispatchQueue.main.async {
                     
                     completion(.failure(error))
                     
 
-                }
                 return
             }
         }
