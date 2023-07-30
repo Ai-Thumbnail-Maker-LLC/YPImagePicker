@@ -135,7 +135,7 @@ extension YPLibraryVC: UICollectionViewDelegate {
                                         
                                         cell.imageView.layer.borderWidth = 5.0
                                         cell.imageView.layer.borderColor = UIColor.clear.cgColor
-                                        DispatchQueue.global(qos: .userInteractive) {
+                                        DispatchQueue.global(qos: .userInteractive).async {
                                             let crop = FaceCropper()
                                             crop.mCrop(image: (image?.cgImage)!) { result in
                                                 switch result {
@@ -169,6 +169,7 @@ extension YPLibraryVC: UICollectionViewDelegate {
                                                 }
                                             }
                                         }
+                                        
                     
                                         cell.imageView.image = image
                                         
