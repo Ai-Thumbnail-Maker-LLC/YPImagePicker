@@ -17,7 +17,7 @@ public class FaceCropper {
     guard #available(iOS 13.0, *) else {
       return
     }
-        Task {
+        //Task {
             
             let hasFace = self.checkIfImagehanOnlyOneImage(img: UIImage(cgImage: image))
             
@@ -120,7 +120,7 @@ public class FaceCropper {
 
                 return
             }
-        }
+        //}
   }
 
     func checkIfImagehanOnlyOneImage(img:UIImage?) -> Bool{
