@@ -140,7 +140,7 @@ extension YPLibraryVC: UICollectionViewDelegate {
                                             let crop = FaceCropper()
                                             crop.mCrop(image: (image?.cgImage)!) { result in
                                                 
-                                                if cell.indexPath.row != indexPath.row || cell.indexPath.section != indexPath.section {
+                                                if cell.indexPath.row == indexPath.row && cell.indexPath.section == indexPath.section {
                                                     
                                                     switch result {
                                                     case .success(let faces):
