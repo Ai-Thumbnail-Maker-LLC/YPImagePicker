@@ -37,7 +37,7 @@ public class FaceCropper {
                   
                   completion(.notFound)
                   print("Face failed")
-                  //return nil
+                  return nil
               }
               
           } else {
@@ -51,7 +51,7 @@ public class FaceCropper {
           if face.boundingBox.height < 0.25 || face.boundingBox.width < 0.25 {
               completion(.notFound)
               print("Face too small")
-            //return nil
+            return nil
           }
           
 //
