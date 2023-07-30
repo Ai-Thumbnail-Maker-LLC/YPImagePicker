@@ -132,6 +132,14 @@ extension YPLibraryVC: UICollectionViewDelegate {
                                     // The cell may have been recycled when the time this gets called
                                     // set image only if it's still showing the same asset.
                                     if cell.representedAssetIdentifier == asset.localIdentifier && image != nil {
+                                        
+                                        
+                                        let random = Int.random(in: 0...1)
+                                        if random == 0 {
+                                            cell.backgroundColor = .green
+                                        } else {
+                                            cell.backgroundColor = .red
+                                        }
                                         cell.imageView.image = image
                                     }
         }
