@@ -118,9 +118,9 @@ public class FaceCropper {
                     DispatchQueue.main.async {
                         
                         completion(.notFound)
-                        return
+                        
                     }
-                    
+                    return
                 }
                 
             }
@@ -131,9 +131,10 @@ public class FaceCropper {
                 DispatchQueue.main.async {
                     
                     completion(.failure(error))
-                    return
+                    
 
                 }
+                return
             }
         }
   }
